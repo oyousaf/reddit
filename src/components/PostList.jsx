@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../services/redditService";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import PostItem from "./PostItem";
 
@@ -74,20 +73,19 @@ const PostList = () => {
         </button>
       </div>
 
-      {/* Post Items with Transitions */}
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <TransitionGroup component="ul" className="list-none mt-4">
+        <ul className="list-none mt-4">
           {posts.map((post) => (
-            <CSSTransition key={post.id} timeout={500} classNames="post-item">
+            <li key={post.id} timeout={500} className="post-item">
               <PostItem
                 post={post}
                 onItemClick={() => handleItemSelected(post)}
               />
-            </CSSTransition>
+            </li>
           ))}
-        </TransitionGroup>
+        </ul>
       )}
     </div>
   );
