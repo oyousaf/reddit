@@ -34,7 +34,6 @@ const PostItem = ({ post, onItemClick }) => {
       {hasMedia && (
         <>
           {isVideoPost ? (
-            // Render a video player or any specific UI for videos
             <div className="mt-2 rounded sm:w-1/3 overflow-hidden">
               <video controls width="100%">
                 <source
@@ -46,14 +45,13 @@ const PostItem = ({ post, onItemClick }) => {
             </div>
           ) : isExternalLink ? (
             <a href={post.url} target="_blank" rel="noopener noreferrer">
-              <img src={post.thumbnail} className="mt-2 rounded" />
+              <img src={post.thumbnail} className="mt-2 rounded w-[100px]" />
             </a>
           ) : (
-            // Render image or other media types
             <img
               src={post.url_overridden_by_dest || post.thumbnail}
               alt="Post Thumbnail"
-              className="mt-2 rounded sm:w-1/3"
+              className="mt-2 rounded w-[300px]"
             />
           )}
         </>
