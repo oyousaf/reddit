@@ -2,14 +2,15 @@ import React from "react";
 import { FaArrowUp, FaArrowDown, FaRegCommentAlt } from "react-icons/fa";
 
 const PostItem = ({ post, onItemClick }) => {
-  const isImagePost = post.post_hint === "image";
-  const isVideoPost = post.post_hint === "hosted:video";
+  const isSelfPost = post.is_self;
+  const isImagePost = post.is_image;
+  const isVideoPost = post.is_video;
   const isExternalLink = post.post_hint === "link";
 
   const calculateTimeDifference = (utcTimestamp) => {
     const currentUtcTimestamp = Math.floor(Date.now() / 1000);
     const secondsDifference = currentUtcTimestamp - utcTimestamp;
-  
+
     if (secondsDifference < 60) {
       return `${secondsDifference} second${secondsDifference !== 1 ? "s" : ""} ago`;
     } else if (secondsDifference < 3600) {
@@ -45,7 +46,13 @@ const PostItem = ({ post, onItemClick }) => {
             <FaRegCommentAlt /> {post.num_comments} Comments
           </span>
         </div>
-        {isImagePost ? (
+        {isSelfPost ? (
+          <div className="flex items-center mt-2 text-gray-300">
+            <span>Posted by u/{post.author}</span>
+            <span className="mx-2">•</span>
+            <span>{calculateTimeDifference(post.created_utc)}</span>
+          </div>
+        ) : isImagePost ? (
           <p className="mt-2">{post.selftext.substring(0, 100)}...</p>
         ) : (
           <div className="flex items-center mt-2 text-gray-300">
