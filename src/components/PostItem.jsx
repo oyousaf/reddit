@@ -2,8 +2,8 @@ import React from "react";
 import { FaArrowUp, FaArrowDown, FaRegCommentAlt } from "react-icons/fa";
 
 const PostItem = ({ post, onItemClick }) => {
-  const isSelfPost = post.thumbnail === "self";
-
+  const isImagePost = post.post_hint === "image";
+  console.log(post);
   return (
     <li className="cursor-pointer border-b border-teal-700 p-4 hover:bg-teal-800 transition duration-300 rounded-md sm:flex">
       <div className="sm:w-2/3 pr-4" onClick={() => onItemClick(post)}>
@@ -19,7 +19,7 @@ const PostItem = ({ post, onItemClick }) => {
             <FaRegCommentAlt /> {post.num_comments} Comments
           </span>
         </div>
-        {isSelfPost ? (
+        {isImagePost ? (
           <p className="mt-2">{post.selftext.substring(0, 100)}...</p>
         ) : (
           <div className="flex items-center mt-2 text-gray-300">
@@ -29,7 +29,7 @@ const PostItem = ({ post, onItemClick }) => {
           </div>
         )}
       </div>
-      {isSelfPost ? null : (
+      {isImagePost ? null : (
         <img
           src={post.thumbnail}
           alt="Post Thumbnail"
