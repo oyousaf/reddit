@@ -80,7 +80,7 @@ const PostList = () => {
       ) : (
         <ul className="list-none mt-4">
           {posts.map((post) => (
-            <li key={post.id} timeout={500} className="post-item">
+            <li key={post.id} timeout={500} className="cursor-pointer border-b border-teal-700 p-4 hover:bg-teal-800 transition duration-300 rounded-md sm:flex">
               <PostItem
                 post={post}
                 onItemClick={() => handleItemSelected(post)}

@@ -12,7 +12,9 @@ const PostItem = ({ post, onItemClick }) => {
     const secondsDifference = currentUtcTimestamp - utcTimestamp;
 
     if (secondsDifference < 60) {
-      return `${secondsDifference} second${secondsDifference !== 1 ? "s" : ""} ago`;
+      return `${secondsDifference} second${
+        secondsDifference !== 1 ? "s" : ""
+      } ago`;
     } else if (secondsDifference < 3600) {
       const minutes = Math.floor(secondsDifference / 60);
       return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
@@ -32,7 +34,7 @@ const PostItem = ({ post, onItemClick }) => {
   };
 
   return (
-    <li className="cursor-pointer border-b border-teal-700 p-4 hover:bg-teal-800 transition duration-300 rounded-md sm:flex">
+    <>
       <div className="sm:w-2/3 pr-4" onClick={() => onItemClick(post)}>
         <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
         <div className="flex items-center space-x-4 text-gray-300">
@@ -86,7 +88,7 @@ const PostItem = ({ post, onItemClick }) => {
           />
         </a>
       ) : null}
-    </li>
+    </>
   );
 };
 
