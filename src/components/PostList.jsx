@@ -6,21 +6,11 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import PostItem from "./PostItem";
 
-const categories = [
-  "React",
-  "NextJS",
-  "Javascript",
-  "Programming",
-  "Redux",
-  "Tailwind",
-];
-
 const PostList = () => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.searchTerm);
   const posts = useSelector((state) => state.posts);
   const selectedItem = useSelector((state) => state.selectedItem);
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,7 +19,7 @@ const PostList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [selectedCategory, searchTerm]);
+  }, [searchTerm]);
 
   const fetchPopularPosts = useCallback(async () => {
     try {
@@ -44,26 +34,22 @@ const PostList = () => {
       console.error("Error fetching popular posts:", error);
       setLoading(false);
     }
-  }, [dispatch]);
+  }, [dispatch, searchTerm]);
 
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchPosts(selectedCategory, searchTerm);
+      const data = await fetchPosts(null, searchTerm);
       dispatch(setPosts(data));
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
-  }, [dispatch, selectedCategory, searchTerm]);
+  }, [dispatch, searchTerm]);
 
   const handleSearch = () => {
     fetchData();
-  };
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
   };
 
   const handleItemSelected = (item) => {
