@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubredditList = () => {
+const Sidebar = () => {
   const popularSubreddits = [
     "reactjs",
     "programming",
@@ -22,4 +22,4 @@ const SubredditList = () => {
   );
 };
 
-export default SubredditList;
+export default Sidebar;

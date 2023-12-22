@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 
 import PostList from "./components/PostList";
-import SubredditList from "./components/SubredditList";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
           <h2 className="text-white text-xl font-semibold mb-4 uppercase">
             Popular
           </h2>
-          <SubredditList />
+          <Sidebar />
         </div>
         <PostList />
       </main>
