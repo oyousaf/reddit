@@ -4,19 +4,22 @@ import { FaArrowUp, FaArrowDown, FaRegCommentAlt } from "react-icons/fa";
 const PostItem = ({ post, onItemClick }) => {
   const isImagePost = post.post_hint === "image";
   const isVideoPost = post.post_hint === "hosted:video";
+  const isExternalLink = post.post_hint === "link";
 
   const calculateTimeDifference = (utcTimestamp) => {
     const currentUtcTimestamp = Math.floor(Date.now() / 1000);
     const secondsDifference = currentUtcTimestamp - utcTimestamp;
 
     if (secondsDifference < 60) {
-      return `${secondsDifference} seconds ago`;
+      return `${secondsDifference} second${
+        secondsDifference !== 1 ? "s" : ""
+      } ago`;
     } else if (secondsDifference < 3600) {
       const minutes = Math.floor(secondsDifference / 60);
-      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+      return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
     } else if (secondsDifference < 86400) {
       const hours = Math.floor(secondsDifference / 3600);
-      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+      return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
     } else {
       const formattedDate = new Date(utcTimestamp * 1000).toLocaleString();
       return `Posted on ${formattedDate}`;
@@ -55,8 +58,22 @@ const PostItem = ({ post, onItemClick }) => {
           className="mt-2 rounded sm:w-1/3"
         />
       ) : isVideoPost ? (
-        // You can render a video player or any specific UI for videos
-        <p>Video Post</p>
+        <div className="mt-2 rounded sm:w-1/3 overflow-hidden">
+          <video controls width="100%">
+            <source
+              src={post.media.reddit_video?.fallback_url || post.url}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      ) : isExternalLink ? (
+        <a href={post.url} target="_blank" rel="noopener noreferrer">
+          <img
+            src={post.thumbnail}
+            className="mt-2 rounded w-[150px] md:w-[300px]"
+          />
+        </a>
       ) : null}
     </li>
   );
