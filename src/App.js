@@ -1,7 +1,8 @@
 import React from "react";
-import PostList from "./components/PostList";
+import logo from "./logo.svg";
 
-import logo from "./logo.svg"
+import PostList from "./components/PostList";
+import SubredditList from "./components/SubredditList";
 
 function App() {
   return (
@@ -21,7 +22,13 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto p-4">
+      <main className="container mx-auto p-4 flex">
+        <div className="w-1/4 bg-teal-800 p-4 mr-4">
+          <h2 className="text-white text-xl font-semibold mb-4 uppercase">
+            Popular
+          </h2>
+          <SubredditList />
+        </div>
         <PostList />
       </main>
     </div>
