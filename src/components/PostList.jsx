@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../services/redditService";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+import { Link, Router, Switch, useHistory } from "react-router-dom";
+
+import PostItem from "./PostItem";
 
 const categories = [
   "React",
@@ -13,26 +17,6 @@ const categories = [
   "Tailwind",
 ];
 
-const PostItem = ({ post, onItemClick }) => (
-  <li className="cursor-pointer border-b border-teal-700 p-4 hover:bg-teal-800 transition duration-300 rounded-md sm:flex">
-    <div className="sm:w-2/3 pr-4" onClick={() => onItemClick(post)}>
-      <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-      <div className="flex items-center space-x-4 text-gray-300">
-        <span>{post.score} upvotes</span>
-        <span>{post.num_comments} comments</span>
-      </div>
-      <p className="mt-2">{post.selftext.substring(0, 100)}...</p>
-    </div>
-    {post.preview && post.preview.images && post.preview.images.length > 0 && (
-      <img
-        src={post.preview.images[0].source.url}
-        alt="Post Preview"
-        className="mt-2 rounded sm:w-1/3"
-      />
-    )}
-  </li>
-);
-
 const PostList = () => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.searchTerm);
@@ -40,6 +24,7 @@ const PostList = () => {
   const selectedItem = useSelector((state) => state.selectedItem);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     fetchPopularPosts();
@@ -49,7 +34,7 @@ const PostList = () => {
     fetchData();
   }, [selectedCategory, searchTerm]);
 
-  const fetchPopularPosts = async () => {
+  const fetchPopularPosts = useCallback(async () => {
     try {
       const response = await fetch("https://www.reddit.com/r/popular.json");
       const data = await response.json();
@@ -62,9 +47,9 @@ const PostList = () => {
       console.error("Error fetching popular posts:", error);
       setLoading(false);
     }
-  };
+  }, [dispatch]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const data = await fetchPosts(selectedCategory, searchTerm);
@@ -74,7 +59,7 @@ const PostList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch, selectedCategory, searchTerm]);
 
   const handleSearch = () => {
     fetchData();
