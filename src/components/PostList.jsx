@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../services/redditService";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
 
+import LoadingSpinner from "./LoadingSpinner";
+
 import PostItem from "./PostItem";
 
 const PostList = () => {
@@ -74,7 +76,7 @@ const PostList = () => {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <LoadingSpinner />
       ) : (
         <ul className="list-none mt-4">
           {posts.map((post) => (
