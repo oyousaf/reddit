@@ -9,20 +9,24 @@ const PostItem = ({ post, onItemClick }) => {
   const calculateTimeDifference = (utcTimestamp) => {
     const currentUtcTimestamp = Math.floor(Date.now() / 1000);
     const secondsDifference = currentUtcTimestamp - utcTimestamp;
-
+  
     if (secondsDifference < 60) {
-      return `${secondsDifference} second${
-        secondsDifference !== 1 ? "s" : ""
-      } ago`;
+      return `${secondsDifference} second${secondsDifference !== 1 ? "s" : ""} ago`;
     } else if (secondsDifference < 3600) {
       const minutes = Math.floor(secondsDifference / 60);
       return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
     } else if (secondsDifference < 86400) {
       const hours = Math.floor(secondsDifference / 3600);
       return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+    } else if (secondsDifference < 2592000) {
+      const days = Math.floor(secondsDifference / 86400);
+      return `${days} day${days !== 1 ? "s" : ""} ago`;
+    } else if (secondsDifference < 31536000) {
+      const months = Math.floor(secondsDifference / 2592000);
+      return `${months} month${months !== 1 ? "s" : ""} ago`;
     } else {
-      const formattedDate = new Date(utcTimestamp * 1000).toLocaleString();
-      return `Posted on ${formattedDate}`;
+      const years = Math.floor(secondsDifference / 31536000);
+      return `${years} year${years !== 1 ? "s" : ""} ago`;
     }
   };
 
