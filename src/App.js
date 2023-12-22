@@ -23,7 +23,7 @@ function App() {
 
       {/* Main Content */}
       <main className="container mx-auto p-4 flex">
-        <div className="w-1/4 bg-teal-800 p-4 mr-4">
+        <div className="w-1/4 bg-teal-800 p-4 mr-4 rounded-md">
           <h2 className="text-white text-xl font-semibold mb-4 uppercase">
             Popular
           </h2>
