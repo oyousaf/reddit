@@ -14,7 +14,7 @@ function App() {
             width={30}
             height={30}
           />
-          <h1 className="text-3xl font-bold">Reddit App</h1>
+          <h1 className="text-3xl font-bold">Reddit Client</h1>
         </div>
       </header>
 
