@@ -4,8 +4,6 @@ import { fetchPosts } from "../services/redditService";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import { Link, Router, Switch, useHistory } from "react-router-dom";
-
 import PostItem from "./PostItem";
 
 const categories = [
@@ -24,7 +22,6 @@ const PostList = () => {
   const selectedItem = useSelector((state) => state.selectedItem);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
 
   useEffect(() => {
     fetchPopularPosts();
@@ -73,10 +70,6 @@ const PostList = () => {
     dispatch(setSelectedItem(item));
   };
 
-  const handleCloseDetail = () => {
-    dispatch(setSelectedItem(null));
-  };
-
   return (
     <div className="flex flex-col items-center text-white">
       <div className="space-x-4">
@@ -93,46 +86,7 @@ const PostList = () => {
         >
           Search
         </button>
-
-        <div className="space-x-4 space-y-4">
-          <label htmlFor="category" className="uppercase font-bold">
-            Category:
-          </label>
-          <select
-            className="bg-teal-800 px-2 py-1 border border-teal-700 rounded"
-            id="category"
-            value={selectedCategory}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          >
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
       </div>
-
-      {/* Detailed View */}
-      <CSSTransition
-        in={!!selectedItem}
-        timeout={300}
-        classNames="detail-view"
-        unmountOnExit
-      >
-        {(status) => (
-          <div className="mt-4">
-            <h2 className="text-2xl">{selectedItem?.title}</h2>
-            <p>{selectedItem?.selftext}</p>
-            <button
-              className="bg-red-500 text-white px-2 py-1 rounded"
-              onClick={handleCloseDetail}
-            >
-              x
-            </button>
-          </div>
-        )}
-      </CSSTransition>
 
       {/* Post Items with Transitions */}
       {loading ? (

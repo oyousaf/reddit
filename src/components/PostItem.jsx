@@ -15,6 +15,12 @@ const PostItem = ({ post, onItemClick }) => (
         className="mt-2 rounded sm:w-1/3"
       />
     )}
+    {/* Additional conditional check for missing or incorrect image data */}
+    {(!post.preview ||
+      !post.preview.images ||
+      post.preview.images.length === 0) && (
+      <div className="mt-2 rounded sm:w-1/3">No Preview Image</div>
+    )}
   </li>
 );
 
