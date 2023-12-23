@@ -23,7 +23,7 @@ function App() {
 
       {/* Main Content */}
       <main className="container mx-auto p-4 flex flex-col md:flex-row">
-        <div className="w-full lg:w-1/4 h-full  bg-teal-800 p-4 mb-4 mr-4 lg:mb-0 rounded-md">
+        <div className="w-full lg:w-1/4 h-full bg-teal-800 p-4 mb-4 mr-4 lg:mb-0 rounded-md">
           <Sidebar />
         </div>
         <div className="w-full lg:w-3/4">
