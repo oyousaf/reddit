@@ -47,22 +47,37 @@ const PostItem = ({ post, onItemClick }) => {
     if (thumbnail === "self") {
       return null;
     } else if (isImagePost) {
-      return (
-        <img
-          src={url || thumbnail}
-          alt="Post Thumbnail"
-          className="rounded sm:w-1/3"
-        />
-      );
+      // Check if the URL ends with a common image file extension or it's a GIF
+      const isGif = /\.(gif|gifv)$/i.test(url);
+
+      if (isGif) {
+        return (
+          <img
+            src={url}
+            alt="GIF"
+            className="rounded sm:w-1/3"
+          />
+        );
+      } else {
+        return (
+          <img
+            src={url || thumbnail}
+            alt="Post Thumbnail"
+            className="rounded sm:w-1/3"
+          />
+        );
+      }
     } else if (isVideoPost) {
       return (
-        <video controls width="100%" className="rounded sm:w-1/3 ">
-          <source
-            src={media.reddit_video?.fallback_url || url}
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
+        <div className="flex justify-end">
+          <video controls width="100%" className="rounded w-[300px]">
+            <source
+              src={media.reddit_video?.fallback_url || url}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </div>
       );
     } else if (isExternalLink) {
       return (
