@@ -2,11 +2,16 @@ import React from "react";
 
 const Sidebar = () => {
   const popularSubreddits = [
-    "Reactjs",
-    "Programming",
-    "Javascript",
-    "Redux",
-    "Tailwind",
+    "funny",
+    "AskReddit",
+    "gaming",
+    "aww",
+    "worldnews",
+    "todayilearned",
+    "Music",
+    "movies",
+    "science",
+    "pics",
   ];
   return (
     <>
@@ -19,7 +24,7 @@ const Sidebar = () => {
           key={subreddit}
           className="text-white hover:text-gray-300 cursor-pointer"
         >
-          {subreddit}
+          r/{subreddit}
         </li>
       ))}
     </ul>
