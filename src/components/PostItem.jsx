@@ -72,6 +72,7 @@ const PostItem = ({ post, onItemClick }) => {
         </div>
       );
     }
+
     return null;
   };
 
@@ -95,36 +96,27 @@ const PostItem = ({ post, onItemClick }) => {
             <FaRegCommentAlt /> {num_comments} Comments
           </span>
         </div>
-        {(is_self || !is_self) && (
-          <div className="mt-2 text-gray-300">
-            <div>
-              <span>Posted by u/{author}</span>
-              <span className="mx-2">•</span>
-              <span>{calculateTimeDifference(created_utc)}</span>
-            </div>
-            {is_self && <p className="mt-2">{selftext}</p>}
+        <div className="mt-2 text-gray-300">
+          <div>
+            <span>Posted by u/{author}</span>
+            <span className="mx-2">•</span>
+            <span>{calculateTimeDifference(created_utc)}</span>
           </div>
-        )}
+          {is_self && <p className="mt-2">{selftext}</p>}
+        </div>
         {!is_self && (
-          <>
-            <div className="flex items-center mt-2 text-gray-300">
-              <span>Posted by u/{author}</span>
-              <span className="mx-2">•</span>
-              <span>{calculateTimeDifference(created_utc)}</span>
-            </div>
-            <div className="text-gray-100 mt-2">
-              <p>
-                Posted in:
-                <a
-                  href={`https://www.reddit.com/r/${subreddit}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {`r/${subreddit}`}
-                </a>
-              </p>
-            </div>
-          </>
+          <div className="text-gray-100 mt-2">
+            <p>
+              Posted in:
+              <a
+                href={`https://www.reddit.com/r/${subreddit}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {`r/${subreddit}`}
+              </a>
+            </p>
+          </div>
         )}
       </a>
       <div className="ml-4">{renderThumbnail()}</div>
