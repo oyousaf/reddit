@@ -6,114 +6,141 @@ const PostItem = ({ post, onItemClick }) => {
   const isImagePost = post.is_image;
   const isVideoPost = post.is_video;
   const isExternalLink = post.post_hint === "link";
+  const {
+    permalink,
+    subreddit_name_prefixed,
+    title,
+    ups,
+    downs,
+    num_comments,
+    author,
+    created_utc,
+    selftext,
+    media,
+    subreddit,
+    url,
+    thumbnail,
+  } = post;
 
   const calculateTimeDifference = (utcTimestamp) => {
-    const currentUtcTimestamp = Math.floor(Date.now() / 1000);
-    const secondsDifference = currentUtcTimestamp - utcTimestamp;
+    const secondsDifference = Math.floor(Date.now() / 1000) - utcTimestamp;
 
-    if (secondsDifference < 60) {
-      return `${secondsDifference} second${
-        secondsDifference !== 1 ? "s" : ""
-      } ago`;
-    } else if (secondsDifference < 3600) {
-      const minutes = Math.floor(secondsDifference / 60);
-      return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
-    } else if (secondsDifference < 86400) {
-      const hours = Math.floor(secondsDifference / 3600);
-      return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
-    } else if (secondsDifference < 2592000) {
-      const days = Math.floor(secondsDifference / 86400);
-      return `${days} day${days !== 1 ? "s" : ""} ago`;
-    } else if (secondsDifference < 31536000) {
-      const months = Math.floor(secondsDifference / 2592000);
-      return `${months} month${months !== 1 ? "s" : ""} ago`;
-    } else {
-      const years = Math.floor(secondsDifference / 31536000);
-      return `${years} year${years !== 1 ? "s" : ""} ago`;
+    const timeUnits = [
+      { label: "year", seconds: 31536000 },
+      { label: "month", seconds: 2592000 },
+      { label: "day", seconds: 86400 },
+      { label: "hour", seconds: 3600 },
+      { label: "minute", seconds: 60 },
+      { label: "second", seconds: 1 },
+    ];
+
+    for (const unit of timeUnits) {
+      const value = Math.floor(secondsDifference / unit.seconds);
+      if (value >= 1) {
+        return `${value} ${unit.label}${value !== 1 ? "s" : ""} ago`;
+      }
     }
+
+    return "Just now";
   };
 
-  return (
-    <>
-      <div className="sm:w-2/3 pr-4" onClick={() => onItemClick(post)}>
-        <h3 className="text-xl font-semibold mb-2">
-          <a
-            href={`https://www.reddit.com/${post.subreddit_name_prefixed}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {post.title}
-          </a>
-        </h3>
-        <div className="flex items-center space-x-4 text-gray-300">
-          <span>
-            <FaArrowUp />{" "}
-            {post.ups < 1000 ? post.ups : `${(post.ups / 1000).toFixed(1)}K`}
-          </span>
-          <span>
-            <FaArrowDown /> {post.downs}
-          </span>
-          <span>
-            <FaRegCommentAlt /> {post.num_comments} Comments
-          </span>
-        </div>
-        {isSelfPost ? (
-          <div className="flex items-center mt-2 text-gray-300">
-            <span>Posted by u/{post.author}</span>
-            <span className="mx-2">•</span>
-            <span>{calculateTimeDifference(post.created_utc)}</span>
-            <p className="ml-4">{post.selftext.substring(0, 100)}...</p>
-          </div>
-        ) : isImagePost ? (
-          <p>Hi</p>
-        ) : (
-          <>
-            <div className="flex items-center mt-2 text-gray-300">
-              <span>Posted by u/{post.author}</span>
-              <span className="mx-2">•</span>
-              <span>{calculateTimeDifference(post.created_utc)}</span>
-            </div>
-            <div className="text-gray-100 mt-2">
-              <p>
-                Posted in:
-                <a
-                  href={`https://www.reddit.com/r/${post.subreddit}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {`r/${post.subreddit}`}
-                </a>
-              </p>
-            </div>
-          </>
-        )}
-      </div>
-      {isImagePost ? (
+  const renderThumbnail = () => {
+    if (thumbnail === "self") {
+      return <p>No thumbnail for self posts</p>;
+    } else if (isImagePost) {
+      return (
         <img
-          src={post.url || post.thumbnail}
+          src={url || thumbnail}
           alt="Post Thumbnail"
           className="mt-2 rounded sm:w-1/3"
         />
-      ) : isVideoPost ? (
+      );
+    } else if (isVideoPost) {
+      return (
         <div className="mt-2 rounded sm:w-1/3 overflow-hidden">
           <video controls width="100%">
             <source
-              src={post.media.reddit_video?.fallback_url || post.url}
+              src={media.reddit_video?.fallback_url || url}
               type="video/mp4"
             />
             Your browser does not support the video tag.
           </video>
         </div>
-      ) : isExternalLink ? (
-        <a href={post.url} target="_blank" rel="noopener noreferrer">
+      );
+    } else if (isExternalLink) {
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer">
           <img
-            src={post.thumbnail}
+            src={thumbnail}
             className="mt-2 rounded w-[150px] md:w-[300px]"
             alt="External Link Thumbnail"
           />
         </a>
-      ) : null}
-    </>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <a
+      href={`https://www.reddit.com${permalink}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="sm:w-2/3 pr-4"
+      onClick={() => onItemClick(post)}
+    >
+      <h3 className="text-xl font-semibold mb-2">
+        <a
+          href={`https://www.reddit.com/${subreddit_name_prefixed}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {title}
+        </a>
+      </h3>
+      <div className="flex items-center space-x-4 text-gray-300">
+        <span>
+          <FaArrowUp /> {ups < 1000 ? ups : `${(ups / 1000).toFixed(1)}K`}
+        </span>
+        <span>
+          <FaArrowDown /> {downs}
+        </span>
+        <span>
+          <FaRegCommentAlt /> {num_comments} Comments
+        </span>
+      </div>
+      {isSelfPost && (
+        <div className="flex items-center mt-2 text-gray-300">
+          <span>Posted by u/{author}</span>
+          <span className="mx-2">•</span>
+          <span>{calculateTimeDifference(created_utc)}</span>
+          <p className="ml-4">{selftext.substring(0, 100)}...</p>
+        </div>
+      )}
+      {!isSelfPost && (
+        <>
+          <div className="flex items-center mt-2 text-gray-300">
+            <span>Posted by u/{author}</span>
+            <span className="mx-2">•</span>
+            <span>{calculateTimeDifference(created_utc)}</span>
+          </div>
+          <div className="text-gray-100 mt-2">
+            <p>
+              Posted in:
+              <a
+                href={`https://www.reddit.com/r/${subreddit}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {`r/${subreddit}`}
+              </a>
+            </p>
+          </div>
+        </>
+      )}
+      {renderThumbnail()}
+    </a>
   );
 };
 
