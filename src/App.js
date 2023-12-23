@@ -22,11 +22,11 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto p-4 flex">
-        <div className="w-1/4 h-screen bg-teal-800 p-4 mr-4 rounded-md">
+      <main className="container mx-auto p-4 flex flex-col md:flex-row">
+        <div className="w-full lg:w-1/4 h-full  bg-teal-800 p-4 mb-4 mr-4 lg:mb-0 rounded-md">
           <Sidebar />
         </div>
-        <div className="w-3/4">
+        <div className="w-full lg:w-3/4">
           <PostList />
         </div>
       </main>

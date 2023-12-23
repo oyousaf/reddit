@@ -60,11 +60,25 @@ const PostItem = ({ post, onItemClick }) => {
         ) : isImagePost ? (
           <p>Hi</p>
         ) : (
+          <>
           <div className="flex items-center mt-2 text-gray-300">
             <span>Posted by u/{post.author}</span>
             <span className="mx-2">•</span>
             <span>{calculateTimeDifference(post.created_utc)}</span>
           </div>
+                <div className="text-gray-100 mt-2">
+                <p>Posted in: 
+                  <a href={`https://www.reddit.com/r/${post.subreddit}`} target="_blank" rel="noopener noreferrer">
+                    {`r/${post.subreddit}`}
+                  </a>
+                </p>
+                {post.media && (
+                  <p>
+                    <strong>Media:</strong> {post.media.type}
+                  </p>
+                )}
+              </div>
+              </>
         )}
       </div>
       {isImagePost ? (
@@ -92,11 +106,6 @@ const PostItem = ({ post, onItemClick }) => {
           />
         </a>
       ) : null}
-      <div className="text-gray-500 mt-2">
-        <p>Posted by u/{post.author}</p>
-        <p>{calculateTimeDifference(post.created_utc)}</p>
-        <p>{post.num_comments} Comments</p>
-      </div>
     </>
   );
 };
