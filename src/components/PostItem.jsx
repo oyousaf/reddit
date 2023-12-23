@@ -49,12 +49,13 @@ const PostItem = ({ post, onItemClick }) => {
     } else if (isImagePost) {
       // Check if the URL ends with a common image file extension or it's a GIF
       const isGif = /\.(gif|gifv)$/i.test(url);
+      const isPng = /\.png$/i.test(url);
 
-      if (isGif) {
+      if (isGif || isPng) {
         return (
           <img
             src={url}
-            alt="GIF"
+            alt={isGif ? "GIF" : "PNG"}
             className="rounded sm:w-1/3"
           />
         );
@@ -95,13 +96,12 @@ const PostItem = ({ post, onItemClick }) => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex" onClick={() => onItemClick(post)}>
       <a
         href={`https://www.reddit.com${permalink}`}
         target="_blank"
         rel="noopener noreferrer"
         className="sm:w-2/3 pr-4"
-        onClick={() => onItemClick(post)}
       >
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
         <div className="flex items-center space-x-4 text-gray-300">
@@ -116,11 +116,13 @@ const PostItem = ({ post, onItemClick }) => {
           </span>
         </div>
         {isSelfPost && (
-          <div className="flex items-center mt-2 text-gray-300">
-            <span>Posted by u/{author}</span>
-            <span className="mx-2">•</span>
-            <span>{calculateTimeDifference(created_utc)}</span>
-            <p className="ml-4">{selftext.substring(0, 100)}...</p>
+          <div className="mt-2 text-gray-300">
+            <div>
+              <span>Posted by u/{author}</span>
+              <span className="mx-2">•</span>
+              <span>{calculateTimeDifference(created_utc)}</span>
+            </div>
+            <p className="mt-2">{selftext}</p>
           </div>
         )}
         {!isSelfPost && (
