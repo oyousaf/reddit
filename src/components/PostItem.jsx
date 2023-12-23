@@ -44,17 +44,43 @@ const PostItem = ({ post, onItemClick }) => {
 
   const renderThumbnail = () => {
     const imageUrl = post.url_overridden_by_dest || url;
+    const isGif = imageUrl.toLowerCase().endsWith(".gif");
+    const isGifv = imageUrl.toLowerCase().endsWith(".gifv");
 
     if (thumbnail === "self") return null;
 
-    if (post_hint === "image") {
+    if (post_hint === "image" || isGif || isGifv) {
+      let videoUrl = null;
+
+      if (isGif || isGifv) {
+        // Replace ".gifv" with ".mp4" in the URL
+        videoUrl = imageUrl.replace(".gifv", ".mp4");
+      }
+
       return (
-        <a href={imageUrl} target="_blank" rel="noopener noreferrer">
-          <img
-            src={imageUrl}
-            alt="Post Thumbnail"
-            className="rounded w-[150px] md:w-[300px]"
-          />
+        <a
+          href={videoUrl || imageUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {isGif || isGifv ? (
+            <video
+              width="100%"
+              className="rounded w-[300px]"
+              loop
+              autoPlay
+              muted
+            >
+              <source src={videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <img
+              src={imageUrl}
+              alt="Post Thumbnail"
+              className="rounded w-[150px] md:w-[300px]"
+            />
+          )}
         </a>
       );
     }
