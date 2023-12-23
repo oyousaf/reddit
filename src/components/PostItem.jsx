@@ -72,19 +72,6 @@ const PostItem = ({ post, onItemClick }) => {
         </div>
       );
     }
-
-    if (is_self || !is_self) {
-      return (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          <img
-            src={thumbnail}
-            alt={is_self ? "Self Post Thumbnail" : "External Link Thumbnail"}
-            className="rounded w-[150px] md:w-[300px]"
-          />
-        </a>
-      );
-    }
-
     return null;
   };
 
