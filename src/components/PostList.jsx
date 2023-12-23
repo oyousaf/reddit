@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FaSearch } from "react-icons/fa";
 import { fetchPosts } from "../services/redditService";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
 
 import LoadingSpinner from "./LoadingSpinner";
-
 import PostItem from "./PostItem";
 
 const PostList = () => {
   const dispatch = useDispatch();
-  const searchTerm = useSelector((state) => state.searchTerm);
+  const searchTerm = useSelector((state) => state.searchTerm, (prev, next) => prev === next);
   const posts = useSelector((state) => state.posts);
   const selectedItem = useSelector((state) => state.selectedItem);
   const [loading, setLoading] = useState(true);
@@ -68,10 +68,11 @@ const PostList = () => {
           onChange={(e) => dispatch(setSearchTerm(e.target.value))}
         />
         <button
+          type="button"
           className="bg-teal-800 hover:bg-teal-500 text-white font-bold px-4 py-1 rounded border border-teal-700"
           onClick={handleSearch}
         >
-          Search
+          <FaSearch />
         </button>
       </div>
 
@@ -80,7 +81,7 @@ const PostList = () => {
       ) : (
         <ul className="list-none mt-4">
           {posts.map((post) => (
-            <li key={post.id} timeout={500} className="cursor-pointer border-b border-teal-700 p-4 hover:bg-teal-800 transition duration-300 rounded-md sm:flex">
+            <li key={post.id} className="cursor-pointer border-b border-teal-700 p-4 hover:bg-teal-800 transition duration-300 rounded-md sm:flex">
               <PostItem
                 post={post}
                 onItemClick={() => handleItemSelected(post)}
