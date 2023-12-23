@@ -8,7 +8,6 @@ const PostItem = ({ post, onItemClick }) => {
   const isExternalLink = post.post_hint === "link";
   const {
     permalink,
-    subreddit_name_prefixed,
     title,
     ups,
     downs,
@@ -46,34 +45,32 @@ const PostItem = ({ post, onItemClick }) => {
 
   const renderThumbnail = () => {
     if (thumbnail === "self") {
-      return "";
+      return null;
     } else if (isImagePost) {
       return (
         <img
           src={url || thumbnail}
           alt="Post Thumbnail"
-          className="mt-2 rounded sm:w-1/3"
+          className="rounded sm:w-1/3"
         />
       );
     } else if (isVideoPost) {
       return (
-        <div className="mt-2 rounded sm:w-1/3 overflow-hidden">
-          <video controls width="100%">
-            <source
-              src={media.reddit_video?.fallback_url || url}
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
-        </div>
+        <video controls width="100%" className="rounded sm:w-1/3 ">
+          <source
+            src={media.reddit_video?.fallback_url || url}
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
       );
     } else if (isExternalLink) {
       return (
         <a href={url} target="_blank" rel="noopener noreferrer">
           <img
             src={thumbnail}
-            className="mt-2 rounded w-[150px] md:w-[300px]"
             alt="External Link Thumbnail"
+            className="rounded w-[150px] md:w-[300px]"
           />
         </a>
       );
@@ -83,64 +80,59 @@ const PostItem = ({ post, onItemClick }) => {
   };
 
   return (
-    <a
-      href={`https://www.reddit.com${permalink}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="sm:w-2/3 pr-4"
-      onClick={() => onItemClick(post)}
-    >
-      <h3 className="text-xl font-semibold mb-2">
-        <a
-          href={`https://www.reddit.com/${subreddit_name_prefixed}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {title}
-        </a>
-      </h3>
-      <div className="flex items-center space-x-4 text-gray-300">
-        <span>
-          <FaArrowUp /> {ups < 1000 ? ups : `${(ups / 1000).toFixed(1)}K`}
-        </span>
-        <span>
-          <FaArrowDown /> {downs}
-        </span>
-        <span>
-          <FaRegCommentAlt /> {num_comments} Comments
-        </span>
-      </div>
-      {isSelfPost && (
-        <div className="flex items-center mt-2 text-gray-300">
-          <span>Posted by u/{author}</span>
-          <span className="mx-2">•</span>
-          <span>{calculateTimeDifference(created_utc)}</span>
-          <p className="ml-4">{selftext.substring(0, 100)}...</p>
+    <div className="flex">
+      <a
+        href={`https://www.reddit.com${permalink}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="sm:w-2/3 pr-4"
+        onClick={() => onItemClick(post)}
+      >
+        <h3 className="text-xl font-semibold mb-2">{title}</h3>
+        <div className="flex items-center space-x-4 text-gray-300">
+          <span>
+            <FaArrowUp /> {ups < 1000 ? ups : `${(ups / 1000).toFixed(1)}K`}
+          </span>
+          <span>
+            <FaArrowDown /> {downs}
+          </span>
+          <span>
+            <FaRegCommentAlt /> {num_comments} Comments
+          </span>
         </div>
-      )}
-      {!isSelfPost && (
-        <>
+        {isSelfPost && (
           <div className="flex items-center mt-2 text-gray-300">
             <span>Posted by u/{author}</span>
             <span className="mx-2">•</span>
             <span>{calculateTimeDifference(created_utc)}</span>
+            <p className="ml-4">{selftext.substring(0, 100)}...</p>
           </div>
-          <div className="text-gray-100 mt-2">
-            <p>
-              Posted in:
-              <a
-                href={`https://www.reddit.com/r/${subreddit}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {`r/${subreddit}`}
-              </a>
-            </p>
-          </div>
-        </>
-      )}
-      {renderThumbnail()}
-    </a>
+        )}
+        {!isSelfPost && (
+          <>
+            <div className="flex items-center mt-2 text-gray-300">
+              <span>Posted by u/{author}</span>
+              <span className="mx-2">•</span>
+              <span>{calculateTimeDifference(created_utc)}</span>
+            </div>
+            <div className="text-gray-100 mt-2">
+              <p>
+                Posted in:
+                <a
+                  href={`https://www.reddit.com/r/${subreddit}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {`r/${subreddit}`}
+                </a>
+              </p>
+            </div>
+          </>
+        )}
+      </a>
+      {/* Container for video and thumbnails */}
+      <div className="ml-4">{renderThumbnail()}</div>
+    </div>
   );
 };
 
