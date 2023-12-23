@@ -12,9 +12,7 @@ const PostItem = ({ post, onItemClick }) => {
     const secondsDifference = currentUtcTimestamp - utcTimestamp;
 
     if (secondsDifference < 60) {
-      return `${secondsDifference} second${
-        secondsDifference !== 1 ? "s" : ""
-      } ago`;
+      return `${secondsDifference} second${secondsDifference !== 1 ? "s" : ""} ago`;
     } else if (secondsDifference < 3600) {
       const minutes = Math.floor(secondsDifference / 60);
       return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
@@ -36,10 +34,14 @@ const PostItem = ({ post, onItemClick }) => {
   return (
     <>
       <div className="sm:w-2/3 pr-4" onClick={() => onItemClick(post)}>
-        <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+        <h3 className="text-xl font-semibold mb-2">
+          <a href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} target="_blank" rel="noopener noreferrer">
+            {post.title}
+          </a>
+        </h3>
         <div className="flex items-center space-x-4 text-gray-300">
           <span>
-            <FaArrowUp /> {post.ups}
+            <FaArrowUp /> {post.ups < 1000 ? post.ups : `${(post.ups / 1000).toFixed(1)}K`}
           </span>
           <span>
             <FaArrowDown /> {post.downs}
@@ -53,9 +55,10 @@ const PostItem = ({ post, onItemClick }) => {
             <span>Posted by u/{post.author}</span>
             <span className="mx-2">•</span>
             <span>{calculateTimeDifference(post.created_utc)}</span>
+            <p className="ml-4">{post.selftext.substring(0, 100)}...</p>
           </div>
         ) : isImagePost ? (
-          <p className="mt-2">{post.selftext.substring(0, 100)}...</p>
+          <p>Hi</p>
         ) : (
           <div className="flex items-center mt-2 text-gray-300">
             <span>Posted by u/{post.author}</span>
@@ -66,7 +69,7 @@ const PostItem = ({ post, onItemClick }) => {
       </div>
       {isImagePost ? (
         <img
-          src={post.url_overridden_by_dest || post.thumbnail}
+          src={post.url || post.thumbnail}
           alt="Post Thumbnail"
           className="mt-2 rounded sm:w-1/3"
         />
@@ -85,9 +88,15 @@ const PostItem = ({ post, onItemClick }) => {
           <img
             src={post.thumbnail}
             className="mt-2 rounded w-[150px] md:w-[300px]"
+            alt="External Link Thumbnail"
           />
         </a>
       ) : null}
+      <div className="text-gray-500 mt-2">
+        <p>Posted by u/{post.author}</p>
+        <p>{calculateTimeDifference(post.created_utc)}</p>
+        <p>{post.num_comments} Comments</p>
+      </div>
     </>
   );
 };
