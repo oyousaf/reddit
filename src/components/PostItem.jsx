@@ -2,10 +2,6 @@ import React from "react";
 import { FaArrowUp, FaArrowDown, FaRegCommentAlt } from "react-icons/fa";
 
 const PostItem = ({ post, onItemClick }) => {
-  const isSelfPost = post.is_self;
-  const isImagePost = post.is_image;
-  const isVideoPost = post.is_video;
-  const isExternalLink = post.post_hint === "link";
   const {
     permalink,
     title,
@@ -19,6 +15,9 @@ const PostItem = ({ post, onItemClick }) => {
     subreddit,
     url,
     thumbnail,
+    post_hint,
+    is_self,
+    is_video,
   } = post;
 
   const calculateTimeDifference = (utcTimestamp) => {
@@ -46,9 +45,9 @@ const PostItem = ({ post, onItemClick }) => {
   const renderThumbnail = () => {
     const imageUrl = post.url_overridden_by_dest || url;
 
-    if (thumbnail === "self") {
-      return null;
-    } else if (isImagePost) {
+    if (thumbnail === "self") return null;
+
+    if (post_hint === "image") {
       return (
         <a href={imageUrl} target="_blank" rel="noopener noreferrer">
           <img
@@ -58,7 +57,9 @@ const PostItem = ({ post, onItemClick }) => {
           />
         </a>
       );
-    } else if (isVideoPost) {
+    }
+
+    if (is_video) {
       return (
         <div className="flex justify-end">
           <video controls width="100%" className="rounded w-[300px]">
@@ -70,12 +71,14 @@ const PostItem = ({ post, onItemClick }) => {
           </video>
         </div>
       );
-    } else if (isExternalLink) {
+    }
+
+    if (is_self || !is_self) {
       return (
         <a href={url} target="_blank" rel="noopener noreferrer">
           <img
             src={thumbnail}
-            alt="External Link Thumbnail"
+            alt={is_self ? "Self Post Thumbnail" : "External Link Thumbnail"}
             className="rounded w-[150px] md:w-[300px]"
           />
         </a>
@@ -105,17 +108,17 @@ const PostItem = ({ post, onItemClick }) => {
             <FaRegCommentAlt /> {num_comments} Comments
           </span>
         </div>
-        {isSelfPost && (
+        {(is_self || !is_self) && (
           <div className="mt-2 text-gray-300">
             <div>
               <span>Posted by u/{author}</span>
               <span className="mx-2">•</span>
               <span>{calculateTimeDifference(created_utc)}</span>
             </div>
-            <p className="mt-2">{selftext}</p>
+            {is_self && <p className="mt-2">{selftext}</p>}
           </div>
         )}
-        {!isSelfPost && (
+        {!is_self && (
           <>
             <div className="flex items-center mt-2 text-gray-300">
               <span>Posted by u/{author}</span>
@@ -137,7 +140,6 @@ const PostItem = ({ post, onItemClick }) => {
           </>
         )}
       </a>
-      {/* Container for video and thumbnails */}
       <div className="ml-4">{renderThumbnail()}</div>
     </div>
   );
