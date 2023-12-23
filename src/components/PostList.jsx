@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaSearch } from "react-icons/fa";
-import { fetchPosts } from "../services/redditService";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
+import { fetchPosts } from "../services/redditService";
 
 import LoadingSpinner from "./LoadingSpinner";
 import PostItem from "./PostItem";
@@ -47,10 +46,6 @@ const PostList = () => {
       setLoading(false);
     }
   }, [dispatch, searchTerm, fetchPopularPosts]);
-
-  const handleSearch = () => {
-    fetchData();
-  };
 
   const handleItemSelected = (item) => {
     dispatch(setSelectedItem(item));

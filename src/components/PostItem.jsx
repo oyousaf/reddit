@@ -46,7 +46,7 @@ const PostItem = ({ post, onItemClick }) => {
 
   const renderThumbnail = () => {
     if (thumbnail === "self") {
-      return <p>No thumbnail for self posts</p>;
+      return "";
     } else if (isImagePost) {
       return (
         <img
