@@ -44,36 +44,26 @@ const PostItem = ({ post, onItemClick }) => {
   };
 
   const renderThumbnail = () => {
+    const imageUrl = post.url_overridden_by_dest || url;
+
     if (thumbnail === "self") {
       return null;
     } else if (isImagePost) {
-      // Check if the URL ends with a common image file extension or it's a GIF
-      const isGif = /\.(gif|gifv)$/i.test(url);
-      const isPng = /\.png$/i.test(url);
-
-      if (isGif || isPng) {
-        return (
+      return (
+        <a href={imageUrl} target="_blank" rel="noopener noreferrer">
           <img
-            src={url}
-            alt={isGif ? "GIF" : "PNG"}
-            className="rounded sm:w-1/3"
-          />
-        );
-      } else {
-        return (
-          <img
-            src={url || thumbnail}
+            src={imageUrl}
             alt="Post Thumbnail"
-            className="rounded sm:w-1/3"
+            className="rounded w-[150px] md:w-[300px]"
           />
-        );
-      }
+        </a>
+      );
     } else if (isVideoPost) {
       return (
         <div className="flex justify-end">
           <video controls width="100%" className="rounded w-[300px]">
             <source
-              src={media.reddit_video?.fallback_url || url}
+              src={media?.reddit_video?.fallback_url || imageUrl}
               type="video/mp4"
             />
             Your browser does not support the video tag.
