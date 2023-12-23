@@ -12,7 +12,9 @@ const PostItem = ({ post, onItemClick }) => {
     const secondsDifference = currentUtcTimestamp - utcTimestamp;
 
     if (secondsDifference < 60) {
-      return `${secondsDifference} second${secondsDifference !== 1 ? "s" : ""} ago`;
+      return `${secondsDifference} second${
+        secondsDifference !== 1 ? "s" : ""
+      } ago`;
     } else if (secondsDifference < 3600) {
       const minutes = Math.floor(secondsDifference / 60);
       return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
@@ -35,13 +37,18 @@ const PostItem = ({ post, onItemClick }) => {
     <>
       <div className="sm:w-2/3 pr-4" onClick={() => onItemClick(post)}>
         <h3 className="text-xl font-semibold mb-2">
-          <a href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} target="_blank" rel="noopener noreferrer">
+          <a
+            href={`https://www.reddit.com/${post.subreddit_name_prefixed}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {post.title}
           </a>
         </h3>
         <div className="flex items-center space-x-4 text-gray-300">
           <span>
-            <FaArrowUp /> {post.ups < 1000 ? post.ups : `${(post.ups / 1000).toFixed(1)}K`}
+            <FaArrowUp />{" "}
+            {post.ups < 1000 ? post.ups : `${(post.ups / 1000).toFixed(1)}K`}
           </span>
           <span>
             <FaArrowDown /> {post.downs}
@@ -61,24 +68,24 @@ const PostItem = ({ post, onItemClick }) => {
           <p>Hi</p>
         ) : (
           <>
-          <div className="flex items-center mt-2 text-gray-300">
-            <span>Posted by u/{post.author}</span>
-            <span className="mx-2">•</span>
-            <span>{calculateTimeDifference(post.created_utc)}</span>
-          </div>
-                <div className="text-gray-100 mt-2">
-                <p>Posted in: 
-                  <a href={`https://www.reddit.com/r/${post.subreddit}`} target="_blank" rel="noopener noreferrer">
-                    {`r/${post.subreddit}`}
-                  </a>
-                </p>
-                {post.media && (
-                  <p>
-                    <strong>Media:</strong> {post.media.type}
-                  </p>
-                )}
-              </div>
-              </>
+            <div className="flex items-center mt-2 text-gray-300">
+              <span>Posted by u/{post.author}</span>
+              <span className="mx-2">•</span>
+              <span>{calculateTimeDifference(post.created_utc)}</span>
+            </div>
+            <div className="text-gray-100 mt-2">
+              <p>
+                Posted in:
+                <a
+                  href={`https://www.reddit.com/r/${post.subreddit}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {`r/${post.subreddit}`}
+                </a>
+              </p>
+            </div>
+          </>
         )}
       </div>
       {isImagePost ? (

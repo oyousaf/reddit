@@ -66,13 +66,6 @@ const PostList = () => {
           value={searchTerm}
           onChange={(e) => dispatch(setSearchTerm(e.target.value))}
         />
-        <button
-          type="button"
-          className="text-xl text-teal-600 font-bold px-4 py-1 rounded"
-          onClick={handleSearch}
-        >
-          <FaSearch />
-        </button>
       </div>
 
       {loading ? (
