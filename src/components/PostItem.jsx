@@ -57,11 +57,7 @@ const PostItem = ({ post, onItemClick }) => {
       }
 
       return (
-        <a
-          href={videoUrl || imageUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div>
           {isGif || isGifv ? (
             <video
               width="100%"
@@ -80,7 +76,7 @@ const PostItem = ({ post, onItemClick }) => {
               className="rounded w-[150px] md:w-[300px]"
             />
           )}
-        </a>
+        </div>
       );
     }
 
