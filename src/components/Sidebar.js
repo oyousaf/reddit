@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiChevronUp } from "react-icons/fi";
+import { FiChevronDown } from "react-icons/fi";
 
 const Sidebar = () => {
   const popularSubreddits = [
@@ -33,10 +33,10 @@ const Sidebar = () => {
           }}
           onClick={toggleListVisibility}
         >
-          <FiChevronUp />
+          <FiChevronDown />
         </button>
       </div>
-      <div className={`md:flex ${isListVisible ? "block" : "hidden"}`}>
+      <div className={`md:flex justify-center ${isListVisible ? "block" : "hidden"}`}>
         <ul className="space-y-2 md:flex flex-col">
           {popularSubreddits.map((subreddit) => (
             <li
