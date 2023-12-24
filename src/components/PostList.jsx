@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
 import { fetchPosts } from "../services/redditService";
@@ -10,11 +10,10 @@ const PostList = () => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.searchTerm);
   const posts = useSelector((state) => state.posts);
-  // eslint-disable-next-line
   const selectedItem = useSelector((state) => state.selectedItem);
   const [loading, setLoading] = useState(true);
 
-  const fetchPopularPosts = useCallback(async () => {
+  const fetchPopularPosts = useMemo(() => async () => {
     try {
       const response = await fetch("https://www.reddit.com/r/popular.json");
       const data = await response.json();

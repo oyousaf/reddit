@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 
 import PostList from "./components/PostList";
-import Sidebar from "./components/Sidebar";
+const Sidebar = React.lazy(() => import("./Sidebar"));
 
 function App() {
   return (
@@ -24,7 +24,9 @@ function App() {
       {/* Main Content */}
       <main className="container mx-auto p-4 flex flex-col md:flex-row">
         <div className="text-center w-full md:w-1/4 h-full bg-teal-800 p-4 mb-4 mr-4 lg:mb-0 rounded-md">
-          <Sidebar />
+          <React.Suspense fallback={<LoadingSpinner />}>
+            <Sidebar />
+          </React.Suspense>
         </div>
         <div className="w-full lg:w-3/4">
           <PostList />

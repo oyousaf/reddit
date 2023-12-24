@@ -73,6 +73,7 @@ const PostItem = ({ post, onItemClick }) => {
             <img
               src={imageUrl}
               alt="Post Thumbnail"
+              loading="lazy"
               className="rounded w-[150px] md:w-[300px]"
             />
           )}
