@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchTerm, setPosts, setSelectedItem } from "../redux/actions";
 import { fetchPosts } from "../services/redditService";
