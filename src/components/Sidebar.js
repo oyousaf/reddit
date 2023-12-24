@@ -21,6 +21,17 @@ const Sidebar = () => {
     setListVisibility(!isListVisible);
   };
 
+  const renderSubreddits = () => {
+    return popularSubreddits.map((subreddit) => (
+      <li
+        key={subreddit}
+        className="text-white hover:text-gray-300 cursor-pointer"
+      >
+        r/{subreddit}
+      </li>
+    ));
+  };
+
   return (
     <div className="flex flex-col text-center">
       <div className="flex justify-center items-center mb-4">
@@ -36,18 +47,13 @@ const Sidebar = () => {
           <FiChevronDown />
         </button>
       </div>
-      <div className={`md:flex justify-center ${isListVisible ? "block" : "hidden"}`}>
-        <ul className="space-y-2 md:flex flex-col">
-          {popularSubreddits.map((subreddit) => (
-            <li
-              key={subreddit}
-              className="text-white hover:text-gray-300 cursor-pointer"
-            >
-              r/{subreddit}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul
+        className={`space-y-2 md:flex flex-col overflow-hidden duration-300 ease-in-out transition-max-height ${
+          isListVisible ? "max-h-screen" : "max-h-0"
+        }`}
+      >
+        {renderSubreddits()}
+      </ul>
     </div>
   );
 };
