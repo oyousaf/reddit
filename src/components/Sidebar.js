@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronUp } from "react-icons/fi";
 
 const Sidebar = () => {
   const popularSubreddits = [
