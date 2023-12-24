@@ -22,24 +22,28 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="text-center">
-      <div className="flex items-center justify-center mb-4">
-        <h2 className="text-white text-xl font-semibold uppercase mr-2">
+    <div className="flex flex-col text-center items-center">
+      <div className="flex">
+        <h2 className="text-white text-xl font-semibold mb-4 uppercase">
           Popular
         </h2>
         <button
-          className="text-white focus:outline-none text-2xl transition-transform transform"
+          className="md:hidden text-white focus:outline-none ml-2 text-2xl"
+          style={{
+            transition: "transform 0.3s ease-in-out",
+            transform: isListVisible ? "rotate(180deg)" : "rotate(0deg)",
+          }}
           onClick={toggleListVisibility}
         >
           {isListVisible ? <FiChevronUp /> : <FiChevronDown />}
         </button>
       </div>
-      <div
-        className={`md:flex transition-max-h ease-in-out duration-300 overflow-hidden ${
-          isListVisible ? "max-h-screen" : "max-h-0"
-        }`}
-      >
-        <ul className="space-y-2 md:flex flex-col">
+      <div className="md:flex">
+        <ul
+          className={`space-y-2 md:flex flex-col ${
+            isListVisible ? "block" : "hidden"
+          }`}
+        >
           {popularSubreddits.map((subreddit) => (
             <li
               key={subreddit}

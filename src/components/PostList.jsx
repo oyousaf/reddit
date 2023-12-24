@@ -10,6 +10,7 @@ const PostList = () => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.searchTerm);
   const posts = useSelector((state) => state.posts);
+  //eslint-disable-next-line
   const selectedItem = useSelector((state) => state.selectedItem);
   const [loading, setLoading] = useState(true);
 
