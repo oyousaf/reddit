@@ -10,6 +10,7 @@ const PostList = () => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.searchTerm);
   const posts = useSelector((state) => state.posts);
+  // eslint-disable-next-line
   const selectedItem = useSelector((state) => state.selectedItem);
   const [loading, setLoading] = useState(true);
 
@@ -26,25 +27,21 @@ const PostList = () => {
   }, []);
 
   useEffect(() => {
-    fetchPopularPosts();
-  }, [fetchPopularPosts]);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = searchTerm
+          ? await fetchPosts(null, searchTerm)
+          : await fetchPopularPosts();
+        dispatch(setPosts(data));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
     fetchData();
-  }, [searchTerm, fetchPopularPosts]);
-
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = searchTerm
-        ? await fetchPosts(null, searchTerm)
-        : await fetchPopularPosts();
-      dispatch(setPosts(data));
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
   }, [dispatch, searchTerm, fetchPopularPosts]);
 
   const handleItemSelected = (item) => {
