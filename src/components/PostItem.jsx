@@ -53,7 +53,6 @@ const PostItem = ({ post, onItemClick }) => {
       let videoUrl = null;
 
       if (isGif || isGifv) {
-        // Replace ".gifv" with ".mp4" in the URL
         videoUrl = imageUrl.replace(".gifv", ".mp4");
       }
 
