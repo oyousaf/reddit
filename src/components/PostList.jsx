@@ -63,7 +63,7 @@ const PostList = () => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <ul className="list-none mt-4">
+        <ul className="list-none mt-4 w-full">
           {posts.map((post) => (
             <li
               key={post.id}
