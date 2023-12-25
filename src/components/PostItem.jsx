@@ -111,7 +111,7 @@ const PostItem = ({ post, onItemClick }) => {
   };
 
   return (
-    <div className="flex" onClick={() => onItemClick(post)}>
+    <div className="flex w-screen" onClick={() => onItemClick(post)}>
       <div className="sm:w-2/3 pr-4">
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
         <div className="flex items-center space-x-4 text-gray-300">
