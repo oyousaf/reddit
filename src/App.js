@@ -10,13 +10,15 @@ function App() {
       {/* Header */}
       <header className="text-white p-4">
         <div className="flex items-center">
-          <img
-            src={logo}
-            alt="Reddit Logo"
-            className="mr-2"
-            width={50}
-            height={50}
-          />
+          <a href="https://red-client.netlify.app">
+            <img
+              src={logo}
+              alt="Reddit Logo"
+              className="mr-2"
+              width={50}
+              height={50}
+            />
+          </a>
           <h1 className="text-3xl font-bold">Reddit Client</h1>
         </div>
       </header>

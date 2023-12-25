@@ -127,7 +127,7 @@ const PostItem = ({ post, onItemClick }) => {
           {is_self && <p className="mt-2">{selftext}</p>}
         </div>
         {!is_self && (
-          <div className="text-gray-100 mt-2 hover:text-red-400">
+          <div className="text-gray-100 mt-2 hover:text-red-300">
             <p>
               Posted in:
               <a
