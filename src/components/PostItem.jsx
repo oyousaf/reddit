@@ -104,12 +104,15 @@ const PostItem = ({ post }) => {
 
   const handlePostClick = async () => {
     try {
+      console.log("Fetching individual post...");
       const data = await fetchPosts(subreddit, permalink);
+      console.log("Fetched post data:", data);
       dispatch(setPosts(data));
     } catch (error) {
       console.error("Error fetching post:", error);
     }
   };
+  
 
   const handleSubredditClick = async () => {
     try {
