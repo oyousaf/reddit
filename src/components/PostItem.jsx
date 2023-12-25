@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setPosts } from "../redux/actions";
 import { fetchPosts } from "../services/redditService";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, onItemClick }) => {
   const dispatch = useDispatch();
 
   const {
@@ -21,7 +21,6 @@ const PostItem = ({ post }) => {
     post_hint,
     is_self,
     is_video,
-    permalink,
   } = post;
 
   const calculateTimeDifference = (utcTimestamp) => {
@@ -102,18 +101,6 @@ const PostItem = ({ post }) => {
     return null;
   };
 
-  const handlePostClick = async () => {
-    try {
-      console.log("Fetching individual post...");
-      const data = await fetchPosts(subreddit, permalink);
-      console.log("Fetched post data:", data);
-      dispatch(setPosts(data));
-    } catch (error) {
-      console.error("Error fetching post:", error);
-    }
-  };
-  
-
   const handleSubredditClick = async () => {
     try {
       const data = await fetchPosts(subreddit);
@@ -124,7 +111,7 @@ const PostItem = ({ post }) => {
   };
 
   return (
-    <div className="flex" onClick={handlePostClick}>
+    <div className="flex" onClick={() => onItemClick(post)}>
       <div className="sm:w-2/3 pr-4">
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
         <div className="flex items-center space-x-4 text-gray-300">
@@ -147,7 +134,7 @@ const PostItem = ({ post }) => {
           {is_self && <p className="mt-2">{selftext}</p>}
         </div>
         {!is_self && (
-          <p className="text-gray-100 mt-2 hover:text-red-300" onClick={handleSubredditClick}>
+          <p className="text-gray-100 mt-2 hover:text-red-300 cursor-pointer" onClick={handleSubredditClick}>
             Posted in r/{subreddit}
           </p>
         )}
