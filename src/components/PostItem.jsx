@@ -1,9 +1,13 @@
 import React from "react";
 import { FaArrowUp, FaArrowDown, FaRegCommentAlt } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { setPosts } from "../redux/actions";
+import { fetchPosts } from "../services/redditService";
 
-const PostItem = ({ post, onItemClick }) => {
+const PostItem = ({ post }) => {
+  const dispatch = useDispatch();
+
   const {
-    permalink,
     title,
     ups,
     downs,
@@ -13,11 +17,11 @@ const PostItem = ({ post, onItemClick }) => {
     selftext,
     media,
     subreddit,
-    url,
     thumbnail,
     post_hint,
     is_self,
     is_video,
+    permalink,
   } = post;
 
   const calculateTimeDifference = (utcTimestamp) => {
@@ -43,7 +47,7 @@ const PostItem = ({ post, onItemClick }) => {
   };
 
   const renderThumbnail = () => {
-    const imageUrl = post.url_overridden_by_dest || url;
+    const imageUrl = post.url_overridden_by_dest || post.url;
     const isGif = imageUrl.toLowerCase().endsWith(".gif");
     const isGifv = imageUrl.toLowerCase().endsWith(".gifv");
 
@@ -98,14 +102,27 @@ const PostItem = ({ post, onItemClick }) => {
     return null;
   };
 
+  const handlePostClick = async () => {
+    try {
+      const data = await fetchPosts(subreddit, permalink);
+      dispatch(setPosts(data));
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
+  };
+
+  const handleSubredditClick = async () => {
+    try {
+      const data = await fetchPosts(subreddit);
+      dispatch(setPosts(data));
+    } catch (error) {
+      console.error("Error fetching subreddit posts:", error);
+    }
+  };
+
   return (
-    <div className="flex" onClick={() => onItemClick(post)}>
-      <a
-        href={`https://www.reddit.com${permalink}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="sm:w-2/3 pr-4"
-      >
+    <div className="flex" onClick={handlePostClick}>
+      <div className="sm:w-2/3 pr-4">
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
         <div className="flex items-center space-x-4 text-gray-300">
           <span>
@@ -127,20 +144,11 @@ const PostItem = ({ post, onItemClick }) => {
           {is_self && <p className="mt-2">{selftext}</p>}
         </div>
         {!is_self && (
-          <div className="text-gray-100 mt-2 hover:text-red-300">
-            <p>
-              Posted in
-              <a
-                href={`https://www.reddit.com/r/${subreddit}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {` r/${subreddit}`}
-              </a>
-            </p>
-          </div>
+          <p className="text-gray-100 mt-2 hover:text-red-300" onClick={handleSubredditClick}>
+            Posted in r/{subreddit}
+          </p>
         )}
-      </a>
+      </div>
       <div className="ml-4">{renderThumbnail()}</div>
     </div>
   );

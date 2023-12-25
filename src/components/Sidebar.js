@@ -21,10 +21,8 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const handleSubredditClick = async (subreddit) => {
-    console.log("Clicked subreddit:", subreddit);
     try {
       const data = await fetchPosts(subreddit);
-      console.log("Fetched posts:", data);
       dispatch(setPosts(data));
     } catch (error) {
       console.error("Error fetching subreddit posts:", error);
