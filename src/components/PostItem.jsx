@@ -129,13 +129,13 @@ const PostItem = ({ post, onItemClick }) => {
         {!is_self && (
           <div className="text-gray-100 mt-2 hover:text-red-300">
             <p>
-              Posted in:
+              Posted in
               <a
                 href={`https://www.reddit.com/r/${subreddit}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {`r/${subreddit}`}
+                {` r/${subreddit}`}
               </a>
             </p>
           </div>
