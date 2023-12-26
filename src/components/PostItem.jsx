@@ -1,9 +1,11 @@
 import React from "react";
+
 import { FaArrowUp, FaArrowDown, FaRegCommentAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 import { setPosts } from "../redux/actions";
 import { fetchPosts } from "../services/redditService";
-import { Link } from "react-router-dom";
 
 const PostItem = ({ post, onItemClick }) => {
   const dispatch = useDispatch();
