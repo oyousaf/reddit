@@ -135,7 +135,7 @@ const PostItem = ({ post, onItemClick }) => {
           </div>
           {is_self && <p className="mt-2">{selftext}</p>}
         </div>
-        <div className="ml-4">{renderThumbnail()}</div>
+        
         <div className="items-center justify-center flex flex-col mt-2">
           {!is_self && (
             <p
@@ -149,12 +149,13 @@ const PostItem = ({ post, onItemClick }) => {
             to={`https://www.reddit.com${permalink}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm mt-2 py-1 px-2 bg-teal-500 text-white rounded hover:bg-red-600 cursor-pointer"
+            className="text-sm mt-2 py-1 px-2 bg-teal-600 text-white rounded hover:bg-red-600 cursor-pointer"
           >
             Original Post
           </Link>
         </div>
       </div>
+      <div className="ml-4">{renderThumbnail()}</div>
     </div>
   );
 };
