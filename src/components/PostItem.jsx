@@ -3,6 +3,7 @@ import { FaArrowUp, FaArrowDown, FaRegCommentAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { setPosts } from "../redux/actions";
 import { fetchPosts } from "../services/redditService";
+import { Link } from "react-router-dom";
 
 const PostItem = ({ post, onItemClick }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const PostItem = ({ post, onItemClick }) => {
     post_hint,
     is_self,
     is_video,
+    permalink,
   } = post;
 
   const calculateTimeDifference = (utcTimestamp) => {
@@ -111,8 +113,8 @@ const PostItem = ({ post, onItemClick }) => {
   };
 
   return (
-    <div className="flex" onClick={() => onItemClick(post)}>
-      <div className="sm:w-2/3 pr-4">
+    <div className="flex md:w-screen" onClick={() => onItemClick(post)}>
+      <div className="sm:w-2/3 pr-4 flex flex-col">
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
         <div className="flex items-center space-x-4 text-gray-300">
           <span>
@@ -133,13 +135,26 @@ const PostItem = ({ post, onItemClick }) => {
           </div>
           {is_self && <p className="mt-2">{selftext}</p>}
         </div>
-        {!is_self && (
-          <p className="text-gray-100 mt-2 hover:text-red-300 cursor-pointer" onClick={handleSubredditClick}>
-            Posted in r/{subreddit}
-          </p>
-        )}
+        <div className="ml-4">{renderThumbnail()}</div>
+        <div className="items-center justify-center flex flex-col mt-2">
+          {!is_self && (
+            <p
+              className="text-gray-100 mt-2 hover:text-red-300 cursor-pointer"
+              onClick={handleSubredditClick}
+            >
+              Posted in r/{subreddit}
+            </p>
+          )}
+          <Link
+            to={`https://www.reddit.com${permalink}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm mt-2 py-1 px-2 bg-teal-500 text-white rounded hover:bg-red-600 cursor-pointer"
+          >
+            Original Post
+          </Link>
+        </div>
       </div>
-      <div className="ml-4">{renderThumbnail()}</div>
     </div>
   );
 };
