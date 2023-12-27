@@ -5,7 +5,6 @@ self.addEventListener('install', (event) => {
     '/',
     '/index.html',
     '/static/css/main.chunk.css',
-    '/static/js/bundle.js',
   ];
 
   event.waitUntil(
