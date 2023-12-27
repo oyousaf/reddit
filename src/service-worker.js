@@ -1,3 +1,26 @@
-import { preCacheAndRoute } from "workbox-precaching";
+import { precacheAndRoute } from 'workbox-precaching';
 
-preCacheAndRoute(self.__WB_MANIFEST);
+self.addEventListener('install', (event) => {
+  const urlsToCache = [
+    '/',
+    '/index.html',
+    '/static/css/main.chunk.css',
+    '/static/js/bundle.js',
+  ];
+
+  event.waitUntil(
+    caches.open('your-cache-name').then((cache) => {
+      return cache.addAll(urlsToCache);
+    })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
+});
+
+precacheAndRoute(self.__WB_MANIFEST);
