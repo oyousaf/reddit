@@ -19,7 +19,12 @@ const Sidebar = () => {
   ];
 
   const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSubredditList = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleSubredditClick = async (subreddit) => {
     try {
@@ -28,10 +33,6 @@ const Sidebar = () => {
     } catch (error) {
       console.error("Error fetching subreddit posts:", error);
     }
-  };
-
-  const toggleSubredditList = () => {
-    setIsOpen(!isOpen);
   };
 
   return (
@@ -47,13 +48,16 @@ const Sidebar = () => {
           <FiChevronDown />
         </button>
       </div>
-      <div className={`md:flex justify-center ${isOpen ? "block" : "hidden"} max-h-screen  overflow-hidden transition-all duration-300`}>
+      <div className={`md:flex justify-center ${isOpen ? "block" : "hidden"} max-h-screen overflow-hidden transition-all duration-500`}>
         <ul className="space-y-2 md:flex flex-col ">
           {popularSubreddits.map((subreddit) => (
             <li
               key={subreddit}
               className="text-white hover:text-gray-300 cursor-pointer"
-              onClick={() => handleSubredditClick(subreddit)}
+              onClick={() => {
+                handleSubredditClick(subreddit);
+                toggleSubredditList();
+              }}
             >
               r/{subreddit}
             </li>

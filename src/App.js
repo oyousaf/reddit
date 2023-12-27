@@ -31,7 +31,6 @@ function App() {
             <Sidebar />
           </div>
           <div className="w-full lg:w-3/4">
-            {/* Use the Routes component for handling different routes */}
             <Routes>
               <Route path="/" element={<PostList />} />
               <Route path="/r/:subreddit" element={<PostList />} />
