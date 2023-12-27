@@ -3,7 +3,7 @@
 const WorkboxPlugin = require("workbox-webpack-plugin");
 
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx,css,scss}"],
   theme: {
     extend: {},
   },

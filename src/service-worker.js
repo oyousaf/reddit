@@ -1,4 +1,5 @@
 import { precacheAndRoute } from 'workbox-precaching';
+/* eslint-disable no-restricted-globals */
 
 self.addEventListener('install', (event) => {
   const urlsToCache = [
@@ -8,7 +9,7 @@ self.addEventListener('install', (event) => {
   ];
 
   event.waitUntil(
-    caches.open('your-cache-name').then((cache) => {
+    caches.open('cache').then((cache) => {
       return cache.addAll(urlsToCache);
     })
   );
@@ -22,4 +23,4 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-precacheAndRoute(self.__WB_MANIFEST);
+precacheAndRoute(self.__WB_MANIFEST || []);
