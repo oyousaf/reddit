@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { useDispatch } from "react-redux";
+
 import { setPosts } from "../redux/actions";
 import { fetchPosts } from "../services/redditService";
 
